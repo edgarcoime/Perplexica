@@ -2,7 +2,7 @@
 
 # Define the path to the configuration file
 SAMPLE_CONFIG="sample.config.toml"
-CONFIG_FILE="config.toml"
+CONFIG_FILE="sample.config.toml"
 
 # Check if the sample config file exists
 if [ ! -f "$SAMPLE_CONFIG" ]; then
@@ -10,9 +10,9 @@ if [ ! -f "$SAMPLE_CONFIG" ]; then
     exit 1
 fi
 
-# Copy sample.config.toml to config.toml
-cp "$SAMPLE_CONFIG" "$CONFIG_FILE"
-echo "Copied $SAMPLE_CONFIG to $CONFIG_FILE."
+# # Copy sample.config.toml to config.toml
+# cp "$SAMPLE_CONFIG" "$CONFIG_FILE"
+# echo "Copied $SAMPLE_CONFIG to $CONFIG_FILE."
 
 # Detect the operating system
 OS=$(uname)

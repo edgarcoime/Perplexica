@@ -1,4 +1,23 @@
 services:
+  # Pulled from docker hub not repo
+  # changes have to be in compose to work
+  config_initializer:
+    image: alpine:latest
+    volumes:
+      - ./init_config.sh:/app/init_config.sh
+      - ./sample.config.toml:/app/sample.config.toml
+    working_dir: /app
+    environment:
+      OPENAI: OPENIOKEY
+      GROQ: groqkey
+      ANTHROPIC: anthropickey
+    entrypoint: ['/bin/sh', '-c', '/app/init_config.sh']
+    networks:
+      - perplexica-network
+    depends_on:
+      - searxng
+    restart: 'no'
+
   searxng:
     image: docker.io/searxng/searxng:latest
     volumes:
@@ -25,35 +44,33 @@ services:
       - 3001:3001
     volumes:
       - backend-dbstore:/home/perplexica/data
-      - ./config.toml:/home/perplexica/config.toml
+      # - config_volume:/home/perplexica/config.toml
+      - ./sample.config.toml:/home/perplexica/config.toml
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     networks:
       - perplexica-network
     restart: unless-stopped
-
-  perplexica-frontend:
-    build:
-      context: .
-      dockerfile: app.dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=http://127.0.0.1:3001/api
-        - NEXT_PUBLIC_WS_URL=ws://127.0.0.1:3001
-    image: itzcrazykns1337/perplexica-frontend:main
-    environment:
-      - OPENAI=${OPENAI}
-      - GROQ=${GROQ}
-      - ANTHROPIC=${ANTHROPIC}
-    depends_on:
-      - perplexica-backend
-    ports:
-      - 3000:3000
-    networks:
-      - perplexica-network
-    restart: unless-stopped
+  #
+  # perplexica-frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: app.dockerfile
+  #     args:
+  #       - NEXT_PUBLIC_API_URL=http://127.0.0.1:3001/api
+  #       - NEXT_PUBLIC_WS_URL=ws://127.0.0.1:3001
+  #   image: itzcrazykns1337/perplexica-frontend:main
+  #   depends_on:
+  #     - perplexica-backend
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - perplexica-network
+  #   restart: unless-stopped
 
 networks:
   perplexica-network:
 
 volumes:
   backend-dbstore:
+  config_volume:
