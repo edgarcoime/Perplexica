@@ -13,16 +13,19 @@ services:
     build:
       context: .
       dockerfile: backend.dockerfile
-    image: itzcrazykns1337/perplexica-backend:main
+    # image: itzcrazykns1337/perplexica-backend:main
     environment:
       - SEARXNG_API_URL=http://searxng:8080
+      - OPENAI=${OPENAI}
+      - GROQ=${GROQ}
+      - ANTHROPIC=${ANTHROPIC}
     depends_on:
       - searxng
     ports:
       - 3001:3001
     volumes:
       - backend-dbstore:/home/perplexica/data
-      - ./config.toml:/home/perplexica/config.toml
+      # - ./config.toml:/home/perplexica/config.toml
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     networks:
