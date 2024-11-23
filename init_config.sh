@@ -14,9 +14,20 @@ fi
 cp "$SAMPLE_CONFIG" "$CONFIG_FILE"
 echo "Copied $SAMPLE_CONFIG to $CONFIG_FILE."
 
-# Populate the config.toml file with environment variables or default to empty strings
-sed -i '' "s|OPENAI = .*|OPENAI = \"${OPENAI:-}\"|g" "$CONFIG_FILE"
-sed -i '' "s|GROQ = .*|GROQ = \"${GROQ:-}\"|g" "$CONFIG_FILE"
-sed -i '' "s|ANTHROPIC = .*|ANTHROPIC = \"${ANTHROPIC:-}\"|g" "$CONFIG_FILE"
+# Detect the operating system
+OS=$(uname)
+
+# Use different sed options based on OS
+if [ "$OS" == "Darwin" ]; then
+    # macOS sed command
+    sed -i '' "s|OPENAI = .*|OPENAI = \"${OPENAI:-}\"|g" "$CONFIG_FILE"
+    sed -i '' "s|GROQ = .*|GROQ = \"${GROQ:-}\"|g" "$CONFIG_FILE"
+    sed -i '' "s|ANTHROPIC = .*|ANTHROPIC = \"${ANTHROPIC:-}\"|g" "$CONFIG_FILE"
+else
+    # Linux sed command
+    sed -i "s|OPENAI = .*|OPENAI = \"${OPENAI:-}\"|g" "$CONFIG_FILE"
+    sed -i "s|GROQ = .*|GROQ = \"${GROQ:-}\"|g" "$CONFIG_FILE"
+    sed -i "s|ANTHROPIC = .*|ANTHROPIC = \"${ANTHROPIC:-}\"|g" "$CONFIG_FILE"
+fi
 
 echo "Populated $CONFIG_FILE with API keys (or defaults)."
