@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Define the log file path
-LOG_FILE="/var/log/init.log"
-
-# Redirect all output to the log file
-exec > "$LOG_FILE" 2>&1
+# # Define the log file path
+# LOG_FILE="/var/log/init.log"
+#
+# # Redirect all output to the log file
+# exec > "$LOG_FILE" 2>&1
 
 # Define the path to the configuration file
 SAMPLE_CONFIG="sample.config.toml"

@@ -13,12 +13,14 @@ services:
     build:
       context: .
       dockerfile: backend.dockerfile
+      # https://stackoverflow.com/questions/50734271/how-to-define-build-args-in-docker-compose
+      args:
+        - OPENAI=${OPENAI}
+        - GROQ=${GROQ}
+        - ANTHROPIC=${ANTHROPIC}
     # image: itzcrazykns1337/perplexica-backend:main
     environment:
       - SEARXNG_API_URL=http://searxng:8080
-      - OPENAI=${OPENAI}
-      - GROQ=${GROQ}
-      - ANTHROPIC=${ANTHROPIC}
     depends_on:
       - searxng
     ports:
