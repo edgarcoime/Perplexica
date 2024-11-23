@@ -9,10 +9,6 @@ WORKDIR /home/perplexica
 
 COPY ui /home/perplexica/
 
-# Copy and prepare the initialization script
-RUN chmod +x init_config.sh
-RUN ./init_config.sh
-
 RUN yarn install --frozen-lockfile
 RUN yarn build
 

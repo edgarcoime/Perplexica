@@ -9,10 +9,12 @@ COPY package.json /home/perplexica/
 COPY yarn.lock /home/perplexica/
 
 # Copy and prepare the initialization script
-COPY init_config.sh .
-COPY sample.config.toml .
-RUN chmod +x init_config.sh
-RUN ./init_config.sh
+COPY init_config.sh /home/perplexica/
+COPY sample.config.toml /home/perplexica/
+RUN chmod +x /home/perplexica/init_config.sh
+RUN /bin/bash /home/perplexica/init_config.sh
+
+RUN ls -ltr /home/perplexica|cat>"Directorylisting.txt"
 
 RUN mkdir /home/perplexica/data
 
