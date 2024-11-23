@@ -10,8 +10,6 @@ WORKDIR /home/perplexica
 COPY ui /home/perplexica/
 
 # Copy and prepare the initialization script
-COPY init_config.sh .
-COPY sample.config.toml .
 RUN chmod +x init_config.sh
 RUN ./init_config.sh
 
